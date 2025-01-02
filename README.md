@@ -4,4 +4,4 @@ Inspired by https://github.com/JSLegendDev/2d-portfolio-kaboom/tree/master and t
 
 <h2>How to Run</h2>
 <li>Required: Node.js and npm installed: </li>
-<li>Run `npm install` and once everything has installed, run `npm run dev`</li>
+<li>Run `npm install` and once everything has installed, run `npm run dev` to access development stage</li>
