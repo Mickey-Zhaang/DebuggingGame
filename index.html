@@ -2,11 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="src/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
-  <body>
-    Hello World
+  <body class="center">
+    <div class="center-box">
+      <h2 id="center-box-heading">Login</h2>
+      <form id="login-form" action="/custom"> 
+        <label for="username" class="login-label">Username: <input type="text" class="input-boxes" name="username" placeholder="Enter Username" required></label>
+        <label for="password" class="login-label">Password: <input type="text" class="input-boxes" name="password" placeholder="Enter Password" required></label>
+        <button type="submit" value="Login" class="submit-button">  Sign In  </button>
+      </form>
+    </div>
   </body>
 </html>
