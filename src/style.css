@@ -23,6 +23,24 @@ body{
     box-sizing: border-box;
 }
 
+@keyframes glowPulse {
+    0% {
+        text-shadow: 0 0 5.5px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+    25% {
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 6.5px rgba(255, 255, 255, 0.65), 0 0 11px rgba(255, 255, 255, 0.6);
+    }
+    75% {
+        text-shadow: 0 0 6px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 5.5px rgba(255, 255, 255, 0.5), 0 0 6px rgba(255, 255, 255, 0.4);
+    }
+}
+
 .hidden {
     display: hidden;
 }
@@ -90,19 +108,32 @@ p {
     gap: 1rem
 }
 
+.form-row {
+    display: flex;
+    align-items: center; 
+}
+
 .input-boxes{
     font-family: inherit;
     font-size: 1.5rem;
+    color: white;
     background-color: transparent;
+}
+
+.login-label {
+    margin-right: 0.5rem;
+    color: white;
+    transition: 0.3s smooth;
+}
+
+.form-row:has(.input-boxes:focus) .login-label{
+    color: white;
+    animation: glowPulse 2s infinite;
 }
 
 .input-boxes::placeholder {
     color: rgba(255, 255, 255, 0.5); /* Example: Semi-transparent white */
     font-style: italic; /* Optional for distinct styling */
-}
-
-.login-label {
-    color: white;
 }
 
 .submit-button {

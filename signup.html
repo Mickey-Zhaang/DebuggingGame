@@ -10,9 +10,18 @@
     <div class="center-box">
       <h2 id="center-box-heading">Sign Up</h2>
       <form id="login-form" action="/custom"> 
-        <label for="username" class="login-label">Username: <input type="text" class="input-boxes" name="username" placeholder="Enter Username" required></label>
-        <label for="password" class="login-label">Password: <input type="text" class="input-boxes" name="password" placeholder="Enter Password" required></label>
-        <label for="confirm-password" class="login-label">Password: <input type="text" class="input-boxes" name="confirm-password" placeholder="Confirm Password" required></label>
+        <div class="form-row">
+            <label for="username" class="login-label">Username: </label>
+            <input type="text" class="input-boxes" id="username" name="username" placeholder="Enter Username" required>
+          </div>
+          <div class="form-row">
+            <label for="password" class="login-label">Password: </label>
+            <input type="password" class="input-boxes" id="password" name="password" placeholder="Enter Password" required>
+          </div>
+          <div class="form-row">
+            <label for="confirm-password" class="login-label">Password: </label>
+            <input type="password" class="input-boxes" id="password" name="confirm-password" placeholder="Confirm Password" required>
+          </div>
         <button type="submit" value="Login" class="submit-button">  Sign In  </button>
       </form>
       <p class="center">Already a gamer? <br> <a href="index.html" class="clickable-links">Login Here</a></p>

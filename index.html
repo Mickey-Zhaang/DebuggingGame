@@ -10,9 +10,15 @@
     <div class="center-box">
       <h2 id="center-box-heading">Login</h2>
       <form id="login-form" action="/custom"> 
-        <label for="username" class="login-label">Username: <input type="text" class="input-boxes" name="username" placeholder="Enter Username" required></label>
-        <label for="password" class="login-label">Password: <input type="text" class="input-boxes" name="password" placeholder="Enter Password" required></label>
-        <button type="submit" value="Login" class="submit-button">  Sign In  </button>
+        <div class="form-row">
+          <label for="username" class="login-label">Username: </label>
+          <input type="text" class="input-boxes" id="username" name="username" placeholder="Enter Username" required>
+        </div>
+        <div class="form-row">
+          <label for="password" class="login-label">Password: </label>
+          <input type="password" class="input-boxes" id="password" name="password" placeholder="Enter Password" required>
+        </div>
+    <button type="submit" value="Login" class="submit-button">Sign In</button>
       </form>
       <p class="center">Not a gamer? <br> <a href="signup.html" class="clickable-links">Sign Up Here</a></p>
     </div>
