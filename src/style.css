@@ -19,7 +19,7 @@ body{
     margin: 0;
     padding: 0;
     align-content: center;
-    background: radial-gradient(circle at center, #4b0082 0%, #3f0b3f 100%);
+    background: radial-gradient(circle at center, #37025e 0%, #460c46 100%);
     box-sizing: border-box;
 }
 
@@ -29,8 +29,26 @@ body{
 
 .center {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+p {
+    color: white;
+}
+
+.clickable-links {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s ease, color 0.3s ease;
+}
+
+.clickable-links:hover{
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), /* Inner glow */
+                0 0 10px rgba(255, 255, 255, 0.6); /* Outer glow */
+    transform: scale(1.05);
+    color: #f0f0f0; /* Optional: Slightly brighten the text color */
 }
 
 /*Center Box*/
@@ -39,7 +57,7 @@ body{
     flex-direction: column;
     height: 70%;
     width: 60%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     border: 4px solid rgb(29, 3, 3);
     box-sizing: border-box;
@@ -50,7 +68,7 @@ body{
     user-select: none;
 }
 .center-box:hover {
-    box-shadow: 10px 10px 25px 10px rgba(0, 0, 0, 0.5); 
+    box-shadow: 10px 10px 30px 10px rgba(0, 0, 0, 0.5); 
     transform: translateY(-1px); 
 }
 
@@ -101,7 +119,6 @@ body{
     transform: translateY(-1px); 
     background-color: rgb(182, 182, 182);
 }
-
 /*End Box Content*/
 
 
