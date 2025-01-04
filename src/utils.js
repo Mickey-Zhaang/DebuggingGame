@@ -1,6 +1,10 @@
+console.log("utils.js is loaded!")
+
 export function displayDialogue(text, onDisplayEnd) {
   const dialogueUI = document.getElementById("textbox-container");
   const dialogue = document.getElementById("dialogue");
+
+
 
   dialogueUI.style.display = "block";
   let index = 0;
