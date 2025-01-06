@@ -1,5 +1,8 @@
 export const scaleFactor = 4;
 
+console.log("constants.js is loaded!")
+
+
 export const dialogueData = {
   pc: `This is my PC. I work mostly in JavaScript/TypeScript these days.
     I've made a couple of games in that language. I also like Golang and Python. Anyway regardless of the language, I just like programming.
