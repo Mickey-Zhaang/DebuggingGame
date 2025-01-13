@@ -57,6 +57,10 @@ p {
     color: white;
 }
 
+a {
+    text-decoration: none;
+}
+
 .clickable-links {
     color: white;
     text-decoration: none;
