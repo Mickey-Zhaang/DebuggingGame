@@ -1,0 +1,58 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "startMap.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "collisions.tsx": {
+            "scaleInDock": 23,
+            "scaleInEditor": 1
+        },
+        "grass+.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "startMap.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 9,
+            "viewCenter": {
+                "x": 389.66666666666663,
+                "y": 456
+            }
+        },
+        "startMap.tsx": {
+            "scaleInDock": 4,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/mzhan/OneDrive/Desktop/tileEditors/maps",
+    "last.imagePath": "C:/Users/mzhan/OneDrive/Desktop/tileEditors/Tilesets/grass",
+    "map.height": 60,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 12,
+    "map.tileWidth": 12,
+    "map.width": 70,
+    "openFiles": [
+        "startMap.tmx",
+        "grass+.tsx",
+        "collisions.tsx"
+    ],
+    "project": "startMap.tiled-project",
+    "recentFiles": [
+        "collisions.tsx",
+        "grass+.tsx",
+        "startMap.tmx",
+        "startMap.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 12,
+        "width": 12
+    }
+}
