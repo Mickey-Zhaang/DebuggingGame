@@ -50,7 +50,7 @@ k.scene("main", async () => {
 
 
   for (const layer of layers) {
-    if (layer.name === "boundaries") {
+    if (layer.name === "collisions") {
       for (const boundary of layer.objects) {
         map.add([
           k.area({
@@ -75,9 +75,9 @@ k.scene("main", async () => {
       continue;
     }
 
-    if (layer.name === "spawnpoints") {
+    if (layer.name === "Spawnpoint") {
       for (const entity of layer.objects) {
-        if (entity.name === "player") {
+        if (entity.name === "player-spawn") {
           player.pos = k.vec2(
             (map.pos.x + entity.x) * scaleFactor,
             (map.pos.y + entity.y) * scaleFactor
