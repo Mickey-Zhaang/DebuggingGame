@@ -100,8 +100,6 @@ k.scene("main", async () => {
           k.z(5),
           k.scale(scaleFactor)
         ]);
-
-        console.log(`Tile ID: ${tileID}, X: ${x}, Y: ${y}`);
     });
     }
   }
@@ -113,8 +111,26 @@ k.scene("main", async () => {
     setCamScale(k);
   });
 
+  const mapWidth = 70 * 12 * scaleFactor;
+  const mapHeight = 60 * 12 * scaleFactor;
+  
   k.onUpdate(() => {
-    k.camPos(player.worldPos().x, player.worldPos().y - 100);
+      const playerPos = player.worldPos();
+  
+      const halfScreenWidth = k.width() / 2;
+      const halfScreenHeight = k.height() / 2;
+  
+      const clampedX = Math.max(
+          halfScreenWidth,
+          Math.min(playerPos.x, mapWidth - halfScreenWidth)
+      );
+  
+      const clampedY = Math.max(
+          halfScreenHeight,
+          Math.min(playerPos.y, mapHeight - halfScreenHeight)
+      );
+  
+      k.camPos(clampedX, clampedY);
   });
   //End Camera resizing...
 
