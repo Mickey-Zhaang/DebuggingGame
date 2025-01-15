@@ -18,6 +18,11 @@ k.loadSprite("spritesheet", "../spritesheet.png", {
   },
 });
 
+k.loadSprite("startingAssets", "../First Asset pack.png", {
+  sliceX: 32,
+  sliceY: 32,
+});
+
 k.loadSprite("map", "../startMap.png");
 
 k.setBackground(k.Color.fromHex("#311047"));
@@ -48,8 +53,9 @@ k.scene("main", async () => {
   console.log("Done Building Scene 'main'")
 
 
-
+  //Handling Layers
   for (const layer of layers) {
+    //Handling Layer: collisions from startingMap.json
     if (layer.name === "collisions") {
       for (const boundary of layer.objects) {
         map.add([
@@ -60,21 +66,11 @@ k.scene("main", async () => {
           k.pos(boundary.x, boundary.y),
           boundary.name,
         ]);
-
-        if (boundary.name) {
-          player.onCollide(boundary.name, () => {
-            player.isInDialogue = true;
-            displayDialogue(
-              dialogueData[boundary.name],
-              () => (player.isInDialogue = false)
-            );
-          });
-        }
       }
-
       continue;
     }
 
+    //Handling Layer: Spawnpoint from startingMap.json
     if (layer.name === "Spawnpoint") {
       for (const entity of layer.objects) {
         if (entity.name === "player-spawn") {
@@ -87,8 +83,30 @@ k.scene("main", async () => {
         }
       }
     }
+
+    //Handling Layer: Foreground Layer
+    if (layer.name === "Foreground objects") {
+      layer.data.forEach((tileID, index) => {
+        if (tileID === 0) return; // Skip empty tiles
+        const tileWidth = 12;
+        const tileHeight = 12;
+    
+        const x = ((index) % layer.width) * tileWidth; 
+        const y = Math.floor((index) / layer.width) * tileHeight; 
+        
+        k.add([
+          k.sprite("startingAssets", {frame: (tileID - 1)}),  //was tough, thanks 2-d arrays
+          k.pos(x * scaleFactor, y * scaleFactor),
+          k.z(5),
+          k.scale(scaleFactor)
+        ]);
+
+        console.log(`Tile ID: ${tileID}, X: ${x}, Y: ${y}`);
+    });
+    }
   }
 
+  //Camera resizing and movement with player
   setCamScale(k);
 
   k.onResize(() => {
@@ -98,7 +116,9 @@ k.scene("main", async () => {
   k.onUpdate(() => {
     k.camPos(player.worldPos().x, player.worldPos().y - 100);
   });
+  //End Camera resizing...
 
+  //Movement controls
   k.onMouseDown((mouseBtn) => {
     if (mouseBtn !== "left" || player.isInDialogue) return;
 
@@ -144,6 +164,7 @@ k.scene("main", async () => {
       return;
     }
   });
+  k.onMouseRelease(stopAnims);
 
   function stopAnims() {
     if (player.direction === "down") {
@@ -157,59 +178,7 @@ k.scene("main", async () => {
 
     player.play("idle-side");
   }
-
-  k.onMouseRelease(stopAnims);
-
-  k.onKeyRelease(() => {
-    stopAnims();
-  });
-  k.onKeyDown((key) => {
-    const keyMap = [
-      k.isKeyDown("right"),
-      k.isKeyDown("left"),
-      k.isKeyDown("up"),
-      k.isKeyDown("down"),
-    ];
-
-    let nbOfKeyPressed = 0;
-    for (const key of keyMap) {
-      if (key) {
-        nbOfKeyPressed++;
-      }
-    }
-
-    if (nbOfKeyPressed > 1) return;
-
-    if (player.isInDialogue) return;
-    if (keyMap[0]) {
-      player.flipX = false;
-      if (player.curAnim() !== "walk-side") player.play("walk-side");
-      player.direction = "right";
-      player.move(player.speed, 0);
-      return;
-    }
-
-    if (keyMap[1]) {
-      player.flipX = true;
-      if (player.curAnim() !== "walk-side") player.play("walk-side");
-      player.direction = "left";
-      player.move(-player.speed, 0);
-      return;
-    }
-
-    if (keyMap[2]) {
-      if (player.curAnim() !== "walk-up") player.play("walk-up");
-      player.direction = "up";
-      player.move(0, -player.speed);
-      return;
-    }
-
-    if (keyMap[3]) {
-      if (player.curAnim() !== "walk-down") player.play("walk-down");
-      player.direction = "down";
-      player.move(0, player.speed);
-    }
-  });
+  //End Movement controls
 });
 
 console.log("about to run scene 'main'")
