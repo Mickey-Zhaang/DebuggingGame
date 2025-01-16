@@ -15,6 +15,9 @@ k.loadSprite("spritesheet", "../spritesheet.png", {
     "walk-side": { from: 975, to: 978, loop: true, speed: 8 },
     "idle-up": 1014,
     "walk-up": { from: 1014, to: 1017, loop: true, speed: 8 },
+
+    "slime-idle-down": 858,
+    "slime-walk-down": { from: 858, to: 859, loop: true, speed: 2 },
   },
 });
 
@@ -25,7 +28,6 @@ k.loadSprite("startingAssets", "../First Asset pack.png", {
 
 k.loadSprite("map", "../startMap.png");
 
-k.setBackground(k.Color.fromHex("#311047"));
 
 k.scene("main", async () => {
   console.log("Starting Scene 'main'")
@@ -43,6 +45,7 @@ k.scene("main", async () => {
     k.anchor("center"),
     k.pos(),
     k.scale(scaleFactor),
+    k.z(1),
     {
       speed: 250,
       direction: "down",
@@ -50,7 +53,30 @@ k.scene("main", async () => {
     },
     "player",
   ]);
+  
+  const slime = k.make([
+    k.sprite("spritesheet", {anim : "slime-walk-down"}),
+    k.area({
+      shape: new k.Rect(k.vec2(0, 0), 10, 10),
+    }),
+    k.anchor("center"),
+    k.pos(),
+    k.scale(scaleFactor),
+    {
+      hasBeenHit: false,
+    },
+    "slime",
+  ])
   console.log("Done Building Scene 'main'")
+
+  //Clicking a Slime Logic
+  slime.onClick(() => {
+    console.log("Slime has been clicked")
+    slime.hasBeenHit = true;
+    player.isInDialogue = true;
+    displayDialogue()
+  })
+
 
 
   //Handling Layers
@@ -73,7 +99,19 @@ k.scene("main", async () => {
     //Handling Layer: Spawnpoint from startingMap.json
     if (layer.name === "Spawnpoint") {
       for (const entity of layer.objects) {
-        if (entity.name === "player-spawn") {
+
+        //Mob Spawn?
+        if (entity.name === "NPC4") {
+          slime.pos = k.vec2(
+            (map.pos.x + entity.x) * scaleFactor,
+            (map.pos.y + entity.y) * scaleFactor
+          );
+          k.add(slime);
+          continue;
+        }
+
+        //Player Spawn
+        if (entity.name === "spawnpoints") {
           player.pos = k.vec2(
             (map.pos.x + entity.x) * scaleFactor,
             (map.pos.y + entity.y) * scaleFactor
@@ -81,6 +119,8 @@ k.scene("main", async () => {
           k.add(player);
           continue;
         }
+
+        
       }
     }
 
@@ -111,27 +151,10 @@ k.scene("main", async () => {
     setCamScale(k);
   });
 
-  const mapWidth = 70 * 12 * scaleFactor;
-  const mapHeight = 60 * 12 * scaleFactor;
-  
   k.onUpdate(() => {
-      const playerPos = player.worldPos();
-  
-      const halfScreenWidth = k.width() / 2;
-      const halfScreenHeight = k.height() / 2;
-  
-      const clampedX = Math.max(
-          halfScreenWidth,
-          Math.min(playerPos.x, mapWidth - halfScreenWidth)
-      );
-  
-      const clampedY = Math.max(
-          halfScreenHeight,
-          Math.min(playerPos.y, mapHeight - halfScreenHeight)
-      );
-  
-      k.camPos(clampedX, clampedY);
+      k.camPos(player.pos.x, player.pos.y)
   });
+  
   //End Camera resizing...
 
   //Movement controls
