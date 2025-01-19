@@ -1,4 +1,4 @@
-export const scaleFactor = 4;
+export const scaleFactor = 3;
 
 console.log("constants.js is loaded!")
 

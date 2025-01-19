@@ -49,7 +49,7 @@ k.scene("main", async () => {
     k.scale(scaleFactor),
     k.z(1),
     {
-      speed: 250,
+      speed: 200,
       direction: "down",
       isInDialogue: false,
     },
