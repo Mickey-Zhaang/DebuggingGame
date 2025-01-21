@@ -1,8 +1,10 @@
 import { dialogueData, scaleFactor } from "./constants";
 import { k } from "./kaboomCtx";
-import { displayDialogue, setCamScale } from "./utils";
+import { displayDialogue, mouseMovement, setCamScale} from "./utils";
 
-console.log("main.js is loaded!")
+const debug = false; //Toggle to include the print statemets
+
+if (debug) console.log("main.js is loaded!")
 
 
 k.loadSprite("spritesheet", "../spritesheet.png", {
@@ -30,7 +32,7 @@ k.loadSprite("map", "../startMap.png");
 
 
 k.scene("main", async () => {
-  console.log("Starting Scene 'main'")
+  if (debug) console.log("Starting Scene 'main'")
   const mapData = await (await fetch("../startMap.json")).json();
   const layers = mapData.layers;
 
@@ -47,7 +49,7 @@ k.scene("main", async () => {
     k.scale(scaleFactor),
     k.z(1),
     {
-      speed: 250,
+      speed: 200,
       direction: "down",
       isInDialogue: false,
     },
@@ -67,11 +69,11 @@ k.scene("main", async () => {
     },
     "slime",
   ])
-  console.log("Done Building Scene 'main'")
+  if (debug) console.log("Done Building Scene 'main'")
 
   //Clicking a Slime Logic
   slime.onClick(() => {
-    console.log("Slime has been clicked")
+    if (debug) console.log("Slime has been clicked")
     slime.hasBeenHit = true;
     player.isInDialogue = true;
     displayDialogue()
@@ -144,7 +146,7 @@ k.scene("main", async () => {
     }
   }
 
-  //Camera resizing and movement with player
+  //Camera resizing and movement with player (I'll leave these seperate)
   setCamScale(k);
 
   k.onResize(() => {
@@ -154,71 +156,12 @@ k.scene("main", async () => {
   k.onUpdate(() => {
       k.camPos(player.pos.x, player.pos.y)
   });
-  
   //End Camera resizing...
 
-  //Movement controls
-  k.onMouseDown((mouseBtn) => {
-    if (mouseBtn !== "left" || player.isInDialogue) return;
-
-    const worldMousePos = k.toWorld(k.mousePos());
-    player.moveTo(worldMousePos, player.speed);
-
-    const mouseAngle = player.pos.angle(worldMousePos);
-
-    const lowerBound = 50;
-    const upperBound = 125;
-
-    if (
-      mouseAngle > lowerBound &&
-      mouseAngle < upperBound &&
-      player.curAnim() !== "walk-up"
-    ) {
-      player.play("walk-up");
-      player.direction = "up";
-      return;
-    }
-
-    if (
-      mouseAngle < -lowerBound &&
-      mouseAngle > -upperBound &&
-      player.curAnim() !== "walk-down"
-    ) {
-      player.play("walk-down");
-      player.direction = "down";
-      return;
-    }
-
-    if (Math.abs(mouseAngle) > upperBound) {
-      player.flipX = false;
-      if (player.curAnim() !== "walk-side") player.play("walk-side");
-      player.direction = "right";
-      return;
-    }
-
-    if (Math.abs(mouseAngle) < lowerBound) {
-      player.flipX = true;
-      if (player.curAnim() !== "walk-side") player.play("walk-side");
-      player.direction = "left";
-      return;
-    }
-  });
-  k.onMouseRelease(stopAnims);
-
-  function stopAnims() {
-    if (player.direction === "down") {
-      player.play("idle-down");
-      return;
-    }
-    if (player.direction === "up") {
-      player.play("idle-up");
-      return;
-    }
-
-    player.play("idle-side");
-  }
+  //Movement controls (Modularized)
+  k.onMouseDown((mouseBtn) => mouseMovement(k, player, mouseBtn));
   //End Movement controls
 });
 
-console.log("about to run scene 'main'")
+if (debug) console.log("about to run scene 'main'")
 k.go("main");
