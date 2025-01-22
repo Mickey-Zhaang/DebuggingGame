@@ -1,26 +1,29 @@
 console.log("utils.js is loaded!")
 
-export function displayDialogue(text, onDisplayEnd) {
+export function displayDialogue(onDisplayEnd) {
   const dialogueUI = document.getElementById("textbox-container");
   const dialogue = document.getElementById("dialogue");
-
   const closeBtn = document.getElementById("close");
+  const fightBtn = document.getElementById("fight");
 
+  dialogueUI.style.display = "block";
+  dialogue.innerHTML = "Do you want to fight the bug?";
+
+  //logic for clicking fight button
+  function onFightBtnClick() {
+    console.log("hello")
+    fightBtn.removeEventListener("click", onFightBtnClick)
+  }
+  fightBtn.addEventListener("click", onFightBtnClick);
+
+  //logic for clicking close button
   function onCloseBtnClick() {
     onDisplayEnd();
-    dialogueUI.style.display = "none";
-    dialogue.innerHTML = "";
-    clearInterval(intervalRef);
+    dialogueUI.style.display = "none"; //hides the html
+    dialogue.innerHTML = "!"; //does nothing?
     closeBtn.removeEventListener("click", onCloseBtnClick);
   }
-
   closeBtn.addEventListener("click", onCloseBtnClick);
-
-  addEventListener("keypress", (key) => {
-    if (key.code === "Enter") {
-      closeBtn.click();
-    }
-  });
 }
 
 export function setCamScale(k) {
