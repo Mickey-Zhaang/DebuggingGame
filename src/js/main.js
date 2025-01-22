@@ -1,10 +1,18 @@
-import { dialogueData, scaleFactor } from "./constants";
+import {interactionRange, scaleFactor } from "./constants";
 import { k } from "./kaboomCtx";
 import { displayDialogue, mouseMovement, setCamScale} from "./utils";
 
 const debug = false; //Toggle to include the print statemets
 
 if (debug) console.log("main.js is loaded!")
+
+//Makes the note disappear after 10 sec
+const note = document.getElementById("note");
+const timer = 10000; // sets a timer for 10 sec
+console.log(note)
+setTimeout(() => {
+  note.style.display = "none";
+}, timer);
 
 
 k.loadSprite("spritesheet", "../spritesheet.png", {
@@ -33,6 +41,7 @@ k.loadSprite("map", "../startMap.png");
 
 k.scene("main", async () => {
   if (debug) console.log("Starting Scene 'main'")
+
   const mapData = await (await fetch("../startMap.json")).json();
   const layers = mapData.layers;
 
@@ -73,10 +82,22 @@ k.scene("main", async () => {
 
   //Clicking a Slime Logic
   slime.onClick(() => {
-    if (debug) console.log("Slime has been clicked")
-    slime.hasBeenHit = true;
+    //prevents you from clicking the slime until you are within range
+    const distance = player.pos.dist(slime.pos);
+    if (distance > interactionRange) {
+      return;
+    }
+
+    //logic to display the textbox inviting you to battle
     player.isInDialogue = true;
-    displayDialogue()
+    if (!slime.hasBeenHit) {
+      if (debug) console.log("Slime has been clicked")
+      slime.hasBeenHit = true;
+      displayDialogue(() => {
+        player.isInDialogue = false; // Set to False to allow movement after clicking close button (i.e. we cannot move while in dialogue)
+      })
+    }
+    slime.hasBeenHit = false;
   })
 
 
