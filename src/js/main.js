@@ -38,7 +38,7 @@ k.loadSprite("startingAssets", "../First Asset pack.png", {
 
 k.loadSprite("map", "../startMap.png");
 
-
+//loads main scene
 k.scene("main", async () => {
   if (debug) console.log("Starting Scene 'main'")
 
