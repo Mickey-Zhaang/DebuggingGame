@@ -4,12 +4,6 @@ export const scaleFactor = 3;
 export const interactionRange = 140;
 export const debug = false;
 
-export const fightScenes = {
-    1: "Hello1",
-    2: "Hello2",
-    3: "Hello3"
-};
-
 export const player = k.make([
     k.sprite("spritesheet", { anim: "idle-down" }),
     k.area({
