@@ -1,15 +1,13 @@
-import {interactionRange, scaleFactor } from "./constants";
+import {interactionRange, scaleFactor, debug, player} from "./constants";
 import { k } from "./kaboomCtx";
 import { displayDialogue, mouseMovement, setCamScale} from "./utils";
 
-const debug = false; //Toggle to include the print statemets
 
 if (debug) console.log("main.js is loaded!")
 
 //Makes the note disappear after 10 sec
 const note = document.getElementById("note");
 const timer = 10000; // sets a timer for 10 sec
-console.log(note)
 setTimeout(() => {
   note.style.display = "none";
 }, timer);
@@ -38,7 +36,7 @@ k.loadSprite("startingAssets", "../First Asset pack.png", {
 
 k.loadSprite("map", "../startMap.png");
 
-//loads main scene
+//**************** HOME SCENE ****************
 k.scene("main", async () => {
   if (debug) console.log("Starting Scene 'main'")
 
@@ -47,58 +45,50 @@ k.scene("main", async () => {
 
   const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
 
-  const player = k.make([
-    k.sprite("spritesheet", { anim: "idle-down" }),
-    k.area({
-      shape: new k.Rect(k.vec2(0, 3), 10, 10),
-    }),
-    k.body(),
-    k.anchor("center"),
-    k.pos(),
-    k.scale(scaleFactor),
-    k.z(1),
-    {
-      speed: 200,
-      direction: "down",
-      isInDialogue: false,
-    },
-    "player",
-  ]);
-  
-  const slime = k.make([
-    k.sprite("spritesheet", {anim : "slime-walk-down"}),
-    k.area({
-      shape: new k.Rect(k.vec2(0, 0), 10, 10),
-    }),
-    k.anchor("center"),
-    k.pos(),
-    k.scale(scaleFactor),
-    {
-      hasBeenHit: false,
-    },
-    "slime",
-  ])
-  if (debug) console.log("Done Building Scene 'main'")
+  k.onClick(() => {
 
-  //Clicking a Slime Logic
-  slime.onClick(() => {
-    //prevents you from clicking the slime until you are within range
-    const distance = player.pos.dist(slime.pos);
-    if (distance > interactionRange) {
-      return;
+    const clickedSlime = k.get("slime").find((slime) => slime.isHovering());
+    if(clickedSlime) {
+      const distance = player.pos.dist(clickedSlime.pos);
+      if(distance > interactionRange) {
+        return;
+      }
+
+      player.isInDialogue = true;
+
+      if(!clickedSlime.hasBeenHit) {
+        if(debug) console.log("Slime has been clicked");
+        clickedSlime.hasBeenHit = true;
+
+        displayDialogue(()=> {
+          player.isInDialogue = false;
+          clickedSlime.hasBeenHit = false;
+        })
+      }
     }
 
-    //logic to display the textbox inviting you to battle
-    player.isInDialogue = true;
-    if (!slime.hasBeenHit) {
-      if (debug) console.log("Slime has been clicked")
-      slime.hasBeenHit = true;
-      displayDialogue(() => {
-        player.isInDialogue = false; // Set to False to allow movement after clicking close button (i.e. we cannot move while in dialogue)
-      })
-    }
-    slime.hasBeenHit = false;
   })
+
+  // //Clicking a Slime Logic (OUTDATED)
+  // slime.onClick(() => {
+  //   //prevents you from clicking the slime until you are within range
+  //   const distance = player.pos.dist(slime.pos);
+  //   if (distance > interactionRange) {
+  //     return;
+  //   }
+
+  //   //logic to display the textbox inviting you to battle
+  //   player.isInDialogue = true;
+  //   if (!slime.hasBeenHit) {
+  //     if (debug) console.log("Slime has been clicked")
+  //     slime.hasBeenHit = true;
+  //     displayDialogue(() => {
+  //       player.isInDialogue = false; // Set to False to allow movement after clicking close button (i.e. we cannot move while in dialogue)
+  //     })
+  //   }
+  //   slime.hasBeenHit = false;
+  // })
+//**************** END HOME SCENE ****************
 
 
 
@@ -124,12 +114,28 @@ k.scene("main", async () => {
       for (const entity of layer.objects) {
 
         //Mob Spawn?
-        if (entity.name === "NPC4") {
-          slime.pos = k.vec2(
+        if (entity.name.includes("mob")) {
+          //creates an instance per spawnpoint found that is named MOB#
+          const slimeInstance = k.make([
+            k.sprite("spritesheet", {anim : "slime-walk-down"}),
+            k.area({
+              shape: new k.Rect(k.vec2(0, 0), 10, 10),
+            }),
+            k.anchor("center"),
+            k.pos(),
+            k.scale(scaleFactor),
+            {
+              hasBeenHit: false,
+              isDead: false,
+            },
+            "slime",
+          ])
+
+          slimeInstance.pos = k.vec2(
             (map.pos.x + entity.x) * scaleFactor,
             (map.pos.y + entity.y) * scaleFactor
           );
-          k.add(slime);
+          k.add(slimeInstance);
           continue;
         }
 
@@ -142,8 +148,6 @@ k.scene("main", async () => {
           k.add(player);
           continue;
         }
-
-        
       }
     }
 
