@@ -1,6 +1,6 @@
 import {debug} from "./constants";
 
-console.log("utils.js is loaded!")
+if (debug) console.log("utils.js is loaded!")
 
 export function displayDialogue(onDisplayEnd) {
   const dialogueUI = document.getElementById("textbox-container");
@@ -102,7 +102,6 @@ export function restoreGameState() {
     if (debug) console.log("Restored slime:", slimeInstance);
   });
 }
-
 
 //END Haven't tested yet
 

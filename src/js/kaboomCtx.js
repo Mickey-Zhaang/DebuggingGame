@@ -1,7 +1,9 @@
 import kaboom from "kaboom";
-import { scaleFactor } from "./constants";
+import { debug } from "./constants";
 
-console.log("kaboomCtx.js is loaded!")
+if (debug) console.log("kaboomCtx.js is loaded!")
+
+if (debug) console.log("Before Kaboom initialization:", document.querySelectorAll("canvas"));
 
 export const k = kaboom({
   global: false,
@@ -9,3 +11,6 @@ export const k = kaboom({
   canvas: document.getElementById("game"),
   debug: false, // set to false once ready for production
 });
+
+if (debug) console.log("After Kaboom initialization:", document.querySelectorAll("canvas"));
+
