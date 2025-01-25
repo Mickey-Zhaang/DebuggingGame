@@ -1,4 +1,4 @@
-import {debug, fightScenes} from "./constants";
+import {debug} from "./constants";
 
 console.log("utils.js is loaded!")
 

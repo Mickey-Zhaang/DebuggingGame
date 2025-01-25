@@ -1,3 +1,4 @@
+import { saveGameState } from "./utils";
 let fightScenes = { //Let's just put all the prompts in here
   1: ["Prompt 1", "Answer 1"],
   2: ["Prompt 2", "Answer 2"],
