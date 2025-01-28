@@ -10,6 +10,7 @@ export const k = kaboom({
   touchToMouse: true,
   canvas: document.getElementById("game"),
   debug: false, // set to false once ready for production
+  background: [80, 2, 80],
 });
 
 if (debug) console.log("After Kaboom initialization:", document.querySelectorAll("canvas"));
