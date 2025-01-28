@@ -312,8 +312,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":78.0625,
-                 "y":258.375
+                 "x":168,
+                 "y":180
                 }, 
                 {
                  "height":0,
@@ -353,7 +353,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 
@@ -1072,7 +1072,7 @@
          "name":"collisionTiles",
          "opacity":0.49,
          "type":"tilelayer",
-         "visible":true,
+         "visible":false,
          "width":70,
          "x":0,
          "y":0
@@ -2262,7 +2262,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":true,
+         "visible":false,
          "x":0,
          "y":0
         }, 

@@ -1,6 +1,6 @@
 import {interactionRange, scaleFactor, debug} from "./constants";
 import { k } from "./kaboomCtx";
-import { displayDialogue, mouseMovement, setCamScale} from "./utils";
+import { displayDialogue, loadAssets, mouseMovement, setCamScale, createBug} from "./utils";
 
 
 if (debug) console.log("main.js is loaded!")
@@ -12,29 +12,7 @@ setTimeout(() => {
   note.style.display = "none";
 }, timer);
 
-
-k.loadSprite("spritesheet", "../spritesheet.png", {
-  sliceX: 39,
-  sliceY: 31,
-  anims: {
-    "idle-down": 936,
-    "walk-down": { from: 936, to: 939, loop: true, speed: 8 },
-    "idle-side": 975,
-    "walk-side": { from: 975, to: 978, loop: true, speed: 8 },
-    "idle-up": 1014,
-    "walk-up": { from: 1014, to: 1017, loop: true, speed: 8 },
-
-    "slime-idle-down": 858,
-    "slime-walk-down": { from: 858, to: 859, loop: true, speed: 2 },
-  },
-});
-
-k.loadSprite("startingAssets", "../First Asset pack.png", {
-  sliceX: 32,
-  sliceY: 32,
-});
-
-k.loadSprite("map", "../startMap.png");
+loadAssets(k);
 
 const player = k.make([
   k.sprite("spritesheet", { anim: "idle-down" }),
@@ -62,56 +40,33 @@ k.scene("main", async () => {
   const mapData = await (await fetch("../startMap.json")).json();
   const layers = mapData.layers;
 
-  const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
+  const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor), ]);
 
   k.onClick(() => {
 
-    const clickedSlime = k.get("slime").find((slime) => slime.isHovering());
-    if(clickedSlime) {
-      const distance = player.pos.dist(clickedSlime.pos);
+    const clickedBug = k.get("bug").find((bug) => bug.isHovering());
+    if(clickedBug) {
+      const distance = player.pos.dist(clickedBug.pos);
       if(distance > interactionRange) {
         return;
       }
 
       player.isInDialogue = true;
 
-      if(!clickedSlime.hasBeenHit) {
-        if(debug) console.log("Slime has been clicked");
-        clickedSlime.hasBeenHit = true;
+      if(!clickedBug.hasBeenHit) {
+        if(debug) console.log("bug has been clicked");
+        clickedBug.hasBeenHit = true;
 
         displayDialogue(()=> {
           player.isInDialogue = false;
-          clickedSlime.hasBeenHit = false;
+          clickedBug.hasBeenHit = false;
         })
       }
     }
-
   })
-
-  // //Clicking a Slime Logic (OUTDATED)
-  // slime.onClick(() => {
-  //   //prevents you from clicking the slime until you are within range
-  //   const distance = player.pos.dist(slime.pos);
-  //   if (distance > interactionRange) {
-  //     return;
-  //   }
-
-  //   //logic to display the textbox inviting you to battle
-  //   player.isInDialogue = true;
-  //   if (!slime.hasBeenHit) {
-  //     if (debug) console.log("Slime has been clicked")
-  //     slime.hasBeenHit = true;
-  //     displayDialogue(() => {
-  //       player.isInDialogue = false; // Set to False to allow movement after clicking close button (i.e. we cannot move while in dialogue)
-  //     })
-  //   }
-  //   slime.hasBeenHit = false;
-  // })
 //**************** END HOME SCENE ****************
 
-
-
-  //Handling Layers
+  //Handling Layers i.e spawnpoints, mob spawns, npc spawns
   for (const layer of layers) {
     //Handling Layer: collisions from startingMap.json
     if (layer.name === "collisions") {
@@ -135,8 +90,16 @@ k.scene("main", async () => {
         //Mob Spawn?
         if (entity.name.includes("mob")) {
           //creates an instance per spawnpoint found that is named MOB#
-          const slimeInstance = k.make([
-            k.sprite("spritesheet", {anim : "slime-walk-down"}),
+          
+          const clickedBug = createBug(k, map, entity, scaleFactor);
+          
+          k.add(clickedBug);
+          continue;
+        }
+
+        if(entity.name === "NPC4") {
+          const oldMan = k.make ([
+            k.sprite("oldMan", {anim : "idle-down"}),
             k.area({
               shape: new k.Rect(k.vec2(0, 0), 10, 10),
             }),
@@ -144,18 +107,17 @@ k.scene("main", async () => {
             k.pos(),
             k.scale(scaleFactor),
             {
-              hasBeenHit: false,
-              isDead: false,
+              interactedComplete: false,
             },
-            "slime",
+            "oldMan",
           ])
 
-          slimeInstance.pos = k.vec2(
+          oldMan.pos = k.vec2(
             (map.pos.x + entity.x) * scaleFactor,
             (map.pos.y + entity.y) * scaleFactor
           );
-          k.add(slimeInstance);
-          continue;
+          k.add(oldMan);
+          
         }
 
         //Player Spawn
