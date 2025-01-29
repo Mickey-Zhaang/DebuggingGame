@@ -25,7 +25,8 @@ k.scene("main", async () => {
     const clickedBug = k.get("bug").find((bug) => bug.isHovering());
     const clickedOldMan = k.get("oldMan").find((oldMan) => oldMan.isHovering());
 
-    playerInteractingWith(k, clickedBug, player, "bugSquashed");
+    playerInteractingWith(k, clickedBug, player, "bugSquashed", "bug");
+    playerInteractingWith(k, clickedOldMan, player, "oldManGrumbling", "oldMan");
   })
 //**************** END HOME SCENE ****************
 

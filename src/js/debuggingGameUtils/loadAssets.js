@@ -40,4 +40,5 @@ export function loadAssets (k) {
 
     //sounds
     k.loadSound("bugSquashed", "../bugSquashed.wav")
+    k.loadSound("oldManGrumbling", "../oldManGrumbling.wav")
   }
