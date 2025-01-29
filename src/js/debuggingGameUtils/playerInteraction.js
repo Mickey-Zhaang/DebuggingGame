@@ -1,7 +1,7 @@
 import { interactionRange } from "./constants";
 import { displayDialogue } from "./displayDialogue";
 
-export function playerInteractingWith(k, clicked, player, sound, who) {
+export function playerInteractingWith(k, clicked, player, sound, who, callBack=null) {
     
     if(clicked) {
         const distance = player.pos.dist(clicked.pos);
@@ -24,7 +24,7 @@ export function playerInteractingWith(k, clicked, player, sound, who) {
             displayDialogue(who, ()=> {
                 player.isInDialogue = false;
                 clicked.hasInteracted = false;
-            });
+            }, callBack);
         }
       }
 }

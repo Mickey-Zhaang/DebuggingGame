@@ -1,4 +1,5 @@
-export function displayDialogue(who, onDisplayEnd) {
+
+export function displayDialogue(who, onDisplayEnd, fightBtnClicked) {
     const dialogueUI = document.getElementById("bug-textbox-container");
     const dialogue = document.getElementById("dialogue");
     const closeBtn = document.getElementById("close");
@@ -6,23 +7,30 @@ export function displayDialogue(who, onDisplayEnd) {
   
     dialogueUI.style.display = "block";
   
+    //******* GLOBAL FUNCTIONS *******
     function onFightBtnClick() {
-      //Starting new Feature Here
+      fightBtnClicked();
+      onDisplayEnd();
+      dialogueUI.style.display = "none"; 
+      dialogue.innerHTML = "!";
       fightBtn.removeEventListener("click", onFightBtnClick);
-      window.location.href = "../templates/test.html";
     }
   
   
     //logic for clicking close button
-    function onCloseBtnClick() { //Here, after exiting the fight, I probably got to call this as to simulate 
+    function onCloseBtnClick() { 
       onDisplayEnd();
-      dialogueUI.style.display = "none"; //hides the html
-      dialogue.innerHTML = "!"; //does nothing?
+      dialogueUI.style.display = "none"; 
+      dialogue.innerHTML = "!";
       closeBtn.removeEventListener("click", onCloseBtnClick);
     }
-    //******* Functions for Event Listeners ******* 
+
+    //******* End GLOBAL FUNCTIONS *******
+
+    //******* Conditionals for Event Listeners ******* 
 
     if (who === "bug") {
+      
       dialogue.innerHTML = "Do you want to fight the bug?";
       fightBtn.style.display = "block"; 
       closeBtn.style.display = "block";
@@ -33,8 +41,8 @@ export function displayDialogue(who, onDisplayEnd) {
       fightBtn.addEventListener("click", onFightBtnClick);
       closeBtn.addEventListener("click", onCloseBtnClick);
     } else if (who == "oldMan") {
-      const dialogueLines = [ //haven't found a way around not having two of the same first lines
-        "Hello there!",
+     
+      const dialogueLines = [ 
         "Hello there!",
         "I haven't seen you around these parts before.",
         "Be careful, this place is dangerous.",
@@ -45,25 +53,22 @@ export function displayDialogue(who, onDisplayEnd) {
       function showNextDialogue() {
         if (dialogueIndex < dialogueLines.length) {
           dialogue.innerHTML = dialogueLines[dialogueIndex]; 
-          dialogueIndex++; 
         } else {
           onDisplayEnd();
           dialogueUI.style.display = "none";
           dialogue.innerHTML = ""; 
           document.removeEventListener("click", showNextDialogue); 
-          }
+          return;
+         }
+          dialogueIndex++; 
         }
-      
-        // Initialize first dialogue line
         dialogue.innerHTML = dialogueLines[dialogueIndex];
-        dialogueIndex++; 
-      
         fightBtn.style.display = "none"; 
         closeBtn.style.display = "none";
-      
         // Attach click event to progress dialogue
         document.addEventListener("click", showNextDialogue);
       }
     
-  
+    //******* END Conditionals for Event Listeners ******* 
+      
   }
