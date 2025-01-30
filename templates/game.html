@@ -10,8 +10,9 @@
     <div id="app">
       <div>
         <p id="note">Tap/Click around to move</p>
-        
-        <div id="bug-textbox-container" style="display: none">
+
+        <!-- dialogue box -->
+        <div id="textbox-container" style="display: none">
           <div id="textbox">
             <p id="dialogue" class="ui-text"></p>
              <div class="btn-container"> 
@@ -24,7 +25,22 @@
              </div>
           </div>
         </div>
-      
+        <!-- END dialogue box -->
+
+       <!-- Fight Scene -->
+      <div id="fight-scene-wrapper" style="display: none">
+        <div id="fight-scene"> 
+            <div id="fight-scene-fight">
+            </div>
+    
+            <div id="fight-scene-editor">
+                <div id="ui-top"> </div>
+                <div id="ui-bottom"> </div>
+            </div>
+    
+        </div>
+      </div>
+      <!-- Fight Scene -->
       </div>
       <canvas id="game"></canvas>
     </div>

@@ -1,9 +1,10 @@
 
 export function displayDialogue(who, onDisplayEnd, fightBtnClicked) {
-    const dialogueUI = document.getElementById("bug-textbox-container");
+    const dialogueUI = document.getElementById("textbox-container");
     const dialogue = document.getElementById("dialogue");
     const closeBtn = document.getElementById("close");
     const fightBtn = document.getElementById("fight");
+    const fightScene = document.getElementById("fight-scene-wrapper")
   
     dialogueUI.style.display = "block";
   
@@ -11,8 +12,9 @@ export function displayDialogue(who, onDisplayEnd, fightBtnClicked) {
     function onFightBtnClick() {
       fightBtnClicked();
       onDisplayEnd();
-      dialogueUI.style.display = "none"; 
-      dialogue.innerHTML = "!";
+      dialogueUI.style.display = "none"; //hides dialogue box
+      dialogue.innerHTML = "!"; //sets the html to nothing
+      fightScene.style.display = "flex"; //pulls up fight scene
       fightBtn.removeEventListener("click", onFightBtnClick);
     }
   
