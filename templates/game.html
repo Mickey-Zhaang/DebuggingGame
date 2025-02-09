@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="../static/css/gameUI.css" />
+    <link rel="stylesheet" href="../static/css/editor-styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
   </head>
@@ -37,6 +38,31 @@
                 <div id="ui-top"> </div>
                 <div id="ui-bottom"> </div>
             </div>
+              <div class="editor">
+                  <div class="editor__wrapper">
+                      <div class="editor__body">
+                          <div id="editorCode" class="editor__code"></div>
+                      </div>
+                      <div class="editor__footer">
+                          <div class="editor__footer--left">
+                              <button class="editor__btn editor__run">Run ></button>
+                              <button class="editor__btn editor__reset">Reset ></button>
+                          </div>
+                          <div class="editor__footer--right">
+                              <div class="editor__console">
+                                  <ul class="editor__console-logs"></ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          
+          
+              <script src="../static/js/ace-editor/src-min/ace.js"></script>
+              <script src="../static/js/ace-editor/src-min/mode-python.js"></script>
+              <script src="../static/js/ace-editor/src-min/ext-language_tools.js"></script>
+              <script src="../static/js/editor.js"></script>
+              <script src="../static/js/editor-console.js"></script>
     
         </div>
       </div>
